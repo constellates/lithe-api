@@ -26,7 +26,11 @@ app.use(function(req, res, next){
 
 // routing -----------------------------------------------------------------------------------
 
+// RESTful endpoint
 require('./routes/index')(app);
+
+// static documentation
+app.use(express.static(__dirname + '/docs'));
 
 // generic error handling --------------------------------------------------------------------
 

@@ -1,9 +1,9 @@
 /**
-* entrypoint for all routes
-* this module imports all other route modules
-*
-* @class Routes - Index
-*/
+ * entrypoint for all routes
+ * this module imports all other route modules
+ *
+ * @constructor Routes - Index
+ */
 
 // dependencies
 var express = require('express');
