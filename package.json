@@ -9,7 +9,8 @@
     "url": "https://github.com/constellates/lithe-api.git"
   },
   "dependencies": {
-    "express": "^4.10.7"
+    "express": "^4.10.7",
+    "mongoose": "^3.8.21"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
