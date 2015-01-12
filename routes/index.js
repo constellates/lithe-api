@@ -16,5 +16,10 @@ module.exports = function (app, passport) {
     app.use('/user', userRouter);
     var users = require('./users')(userRouter, passport);
 
+// issue routes --------------------------------- ('/issue')
+
+    var issueRouter = express.Router();
+    app.use('/issue', issueRouter);
+    var users = require('./issues')(issueRouter, passport);
 
 };
