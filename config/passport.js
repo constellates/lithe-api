@@ -48,11 +48,40 @@ module.exports = function (passport) {
 	                newUser.save(function(err) {
 	                    if (err) {throw err;}
 	                    done(null, newUser);
-	                    return;
+                        return;
 	                });
 	            }
 	        });
         });
+    }));
+
+    /**
+     * @method local-signin
+     * passport strategy for signing in
+     */
+    passport.use('local-signin', new LocalStrategy({
+        usernameField : 'username',
+        passwordField : 'password',
+        passReqToCallback : true
+    },
+    function (req, username, password, done) {
+        User.findOne({'local.username': username}, function (err, user) {
+            if (err) {return done(err);}
+            if (!user) {
+                var e = new Error('Invalid username or password.');
+                e.http_code = 401;
+                done(e);
+                return;
+            }
+            if (!user.validPassword(password)) {
+                var e = new Error('Invalid username or password.');
+                e.http_code = 401;
+                done(e);
+                return;
+            }
+            done(null, user);
+            return;
+        })
     }));
 
 }
