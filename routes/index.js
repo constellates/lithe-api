@@ -8,13 +8,13 @@
 // dependencies
 var express = require('express');
 
-module.exports = function (app) {
+module.exports = function (app, passport) {
 
 // user routes ---------------------------------- ('/user')
 
     var userRouter = express.Router();
     app.use('/user', userRouter);
-    var users = require('./users')(userRouter);
+    var users = require('./users')(userRouter, passport);
 
 
 };

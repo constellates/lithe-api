@@ -1,33 +1,45 @@
 // dependencies ------------------------------------------------------------------------------
 
-var express = require('express');  // core framework
-var app     = express();           // application entrypoint
-var config  = require('./config'); // project config
+var express    = require('express');         // core framework
+var app        = express();                  // application entrypoint
+var config     = require('./config');        // project config
+var passport   = require('passport');        // authentication library
+var morgan     = require('morgan');          // request logger
+var bodyParser = require('body-parser');     // request body interpreter
+var session    = require('express-session'); // express session management
+var multer     = require('multer');
 
 // configuration -----------------------------------------------------------------------------
 
-app.use(function(req, res, next){
+config.connectDB();
 
+require('./config/passport')(passport);
+app.use(session({secret: 'session-secret-super-secret'}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(multer());
+app.use(morgan('dev'));
+app.use(bodyParser());
+
+// headers
+app.use(function(req, res, next){
     // allow origins
     res.setHeader('Access-Control-Allow-Origin', '*');
-
     // allowed methods
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
-
     // request headers
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
     // allow session credentials
     res.setHeader('Access-Control-Allow-Credentials', true);
-
     next();
-
 });
+
 
 // routing -----------------------------------------------------------------------------------
 
 // RESTful endpoint
-require('./routes/index')(app);
+require('./routes/index')(app, passport);
 
 // static documentation
 app.use(express.static(__dirname + '/docs'));
