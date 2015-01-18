@@ -4,12 +4,11 @@ var mongoose = require('mongoose');
  * Issue Model
  * @class models - project
  */
-
 var issueSchema = mongoose.Schema({
 	// metadata
-    modified : {type: Date, required: true},
+    modified : {type: Date},
     status   : {type: String},
-    type:    : {type: String},
+    type     : {type: String},
     tags     : [],
 
     // groups
@@ -18,10 +17,19 @@ var issueSchema = mongoose.Schema({
     epicId   : {type: String},
 
 	// users
-    creator  : {type: String, required: true, lowercase: true, index:true},
+    creator  : {type: String},
     assignee : {type: String},
 
     // data
     title    : {type: String},
     body     : {type: String}
 });
+
+issueSchema.pre('validate', function (next) {
+    if (typeof this.modified === 'undefined') {
+        this.modified = Date.now();
+    }
+    next();
+});
+
+module.exports = mongoose.model('Issue', issueSchema);

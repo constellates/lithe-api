@@ -2,7 +2,10 @@ var mongoose = require('mongoose');
 
 module.exports = {
 	port: 8888,
-	dbHost: 'mongodb://localhost:27017/constellates',
+	dbHost: 'mongodb://localhost:27017/lithe',
+    auth : {
+        ttl: 7 * 24 * 60 * 60
+    },
 
 	/**
      * establish a mongoose connection to the database

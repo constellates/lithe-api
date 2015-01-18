@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt   = require('bcrypt-nodejs');
+var crypto   = require('crypto');
 
 /**
  * user model
@@ -8,6 +9,7 @@ var bcrypt   = require('bcrypt-nodejs');
  */
 var userSchema = mongoose.Schema({
 	username: {type: String, required: true, unique: true, lowercase: true, index: true},
+    authCode: {type: String, index:true},
 
 	// authentication credentials
 	local  : {
