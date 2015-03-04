@@ -74,6 +74,30 @@ router.get('/', function (req, res, next) {
 
 });
 
+/**
+ * @method issueByID GET
+ * get a single issue
+ */
+router.get('/:issueId', function (req, res, next) {
+	// parse input
+	var	issueId = req.params.hasOwnProperty('issueId') ? req.params.issueId : null
+
+	// validate
+	if (issueId === null) {
+		var e = new Error('You must pass the issueId of the issue to be retrieved.');
+        e.http_code = 400;
+        next(e);
+        return
+	}
+
+	Issue.find({_id: issueId}, function (err, issues) {
+        if (err !== null) {next(err); return;}
+        res.send(issues[0]);
+    });
+
+});
+
+
 // update ------------------------------------------------------------------------------------
 
 /**
